@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "196889485402",
+    "firebase_url": "https://score-1bce9.firebaseio.com",
+    "project_id": "score-1bce9",
+    "storage_bucket": "score-1bce9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196889485402:android:e36f9301146e6a1dd67863",
+        "android_client_info": {
+          "package_name": "aait.sa.scoreapp.score"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196889485402-5riu78det5l8825on9kn9mgg10k4p7jr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfFTCwq79YppkKVyV16a5h34pSo2vqhCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196889485402-5riu78det5l8825on9kn9mgg10k4p7jr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
