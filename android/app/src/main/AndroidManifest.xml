@@ -15,7 +15,7 @@
     <application
             android:name="io.flutter.app.FlutterApplication"
             android:label="567 SCORE"
-            android:icon="@mipmap/ic_launcher">
+            android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyDZIsPzZBdJiNhBKEQDiB4qvOC6iix-WNo"/>
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
