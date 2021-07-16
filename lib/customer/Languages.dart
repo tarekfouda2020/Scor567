@@ -47,12 +47,10 @@ class _centerState extends State<Languages> {
         await Http(_scafold).post("AppApi/ChangeClientProfile", body, context);
     if (_data["key"] == 1) {
       if (val == "ar") {
-        // context.locale = Locale("ar", "EG");
-        EasyLocalization.of(context).locale=Locale("ar","EG");
+        context.setLocale(Locale("ar","EG"));
 
       } else {
-        EasyLocalization.of(context).locale=Locale("en","US");
-        // context.locale = Locale("en", "US");
+        context.setLocale(Locale("en","US"));
       }
       setState(() {
         _lang = val;

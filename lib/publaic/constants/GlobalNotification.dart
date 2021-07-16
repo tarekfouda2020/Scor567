@@ -1,137 +1,88 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:score/customer/Home.dart';
 
-import 'GlobalState.dart';
 
 class GlobalNotification {
-  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  static StreamController<Map<String, dynamic>> _onMessageStreamController =
+  StreamController.broadcast();
+
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  int _id = 0;
-  static GlobalKey<NavigatorState> navigatorKey;
-  Function reset=(){};
+  static BuildContext context;
   static GlobalNotification instance = new GlobalNotification._();
+  static FirebaseMessaging messaging = FirebaseMessaging.instance;
   GlobalNotification._();
 
-  setupNotification({GlobalKey<NavigatorState> navKey,Function func}) {
-    navigatorKey=navKey;
-    reset=func;
-    _flutterLocalNotificationsPlugin=new FlutterLocalNotificationsPlugin();
-    var android=new AndroidInitializationSettings("@mipmap/ic_launcher");
-    var ios=new IOSInitializationSettings();
-    var initSettings=new InitializationSettings(android, ios);
+  GlobalNotification();
+
+  setupNotification(BuildContext cxt)async{
+    context = cxt;
+    _flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings("@mipmap/launcher_icon");
+    var ios = new IOSInitializationSettings();
+    var initSettings = new InitializationSettings(android: android, iOS: ios);
     _flutterLocalNotificationsPlugin.initialize(
       initSettings,
-      onSelectNotification: onSelectNotification,
+      onSelectNotification: flutterNotificationClick,
     );
-    _firebaseMessaging.configure(
-      onMessage: (Map<String,dynamic>message){
-        _id+=1;
-        print(message);
-        _showLocalNotification(message,_id);
-        return;
-      },
-      onResume: (Map<String,dynamic>message){
-        _id+=1;
-        print(message);
-        _showLocalNotification(message,_id);
-        return;
-      },
-      onLaunch: (Map<String,dynamic>message){
-        _id+=1;
-        print(message);
-        _showLocalNotification(message,_id);
-        return;
-      },
-    );
-    _firebaseMessaging.getToken().then((token){
-      print(token);
-    });
-
-
-  }
-
-  static const _channel=MethodChannel("notification");
-
-  _showNativeNotification(message)async{
-    var _notify=message["notification"];
-    print("notify $message");//${_notify["title"]}
-    var result=await _channel.invokeMethod("connectApp",<String,dynamic>{
-      "msg":"Score",
-      "body":"${_notify["body"]}",
-      "page": "${message["data"]["type"]}"
-    });
-    print(message);
-  }
-
-  final player = AudioPlayer();
-
-  _showIosNotification(message,id)async{
-    var _notify=message["notification"];
-    print("notify $message");//${_notify["title"]}
-    if(message["type"]==1){
-      var duration = await player.setAsset('images/ring.mp3');
-    }else{
-      var duration = await player.setAsset('images/alert.mp3');
+    NotificationSettings settings = await messaging.requestPermission(provisional: true);
+    print('User granted permission: ${settings.authorizationStatus}');
+    if(settings.authorizationStatus==AuthorizationStatus.authorized){
+      messaging.getToken().then((token) {
+        print(token);
+      });
+      messaging.setForegroundNotificationPresentationOptions(alert: false,badge: false,sound: false);
+      // messaging.getInitialMessage().then((message) => _showLocalNotification(message));
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print("_____________________Message data:${message.data}");
+        print("_____________________notification:${message.notification?.title}");
+        _showLocalNotification(message);
+        _onMessageStreamController.add(message.data);
+      });
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        print('A new onMessageOpenedApp event was published!');
+        flutterNotificationClick(json.encode(message.data));
+      });
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     }
-    player.play();
-    //_showLocalNotification(message,id);
 
   }
 
-  _showLocalNotification(message,id)async{
-    var _notify=message["notification"];
-    if (Platform.isIOS)
-    {
-      _notify = message;
-    }
-    var android=new AndroidNotificationDetails(_notify["sound2"], _notify["sound2"], "${_notify["body"]}",
-        sound: _notify["sound2"],
-        priority: Priority.High,importance: Importance.High,
-        enableVibration: true,enableLights: true);
-    var ios=new IOSNotificationDetails(sound: _notify["sound2"],);
-    var _platform=new NotificationDetails(android, ios);
+  static Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    print("Handling a background message: ${message.messageId}");
+    flutterNotificationClick(json.encode(message.data));
+  }
 
-    _flutterLocalNotificationsPlugin.show(id, "Score", "${_notify["body"]}",
-        _platform,payload: json.encode(message["data"])
+  StreamController<Map<String, dynamic>> get notificationSubject {
+    return _onMessageStreamController;
+  }
+
+  _showLocalNotification(RemoteMessage message) async {
+    if (message == null) return;
+    var android = AndroidNotificationDetails(
+      "${DateTime.now()}",
+      "${message.notification?.title}",
+      "${message.notification?.body}",
+      sound: RawResourceAndroidNotificationSound(message.data["sound2"]),
+      priority: Priority.high,
+      importance: Importance.max,
+      playSound: true,
+      shortcutId: DateTime.now().toIso8601String(),
     );
-
+    var ios = IOSNotificationDetails(sound: message.data["sound2"]);
+    var _platform = NotificationDetails(android: android, iOS: ios);
+    _flutterLocalNotificationsPlugin.show(
+        DateTime.now().microsecond, "${message.notification?.title}", "${message.notification?.body}", _platform,
+        payload: json.encode(message.data));
   }
 
+  static Future flutterNotificationClick(String payload) async {
+    print("tttttttttt $payload");
+    var _data = json.decode("$payload");
 
-
-
-  Future onSelectNotification(payload) async {
-
-    var obj=json.decode(payload);
-    print("payload $obj");
-
-    Future.delayed(Duration(seconds: 1),(){
-      GlobalState.instance.set("orderData", payload);
-
-//      if(obj["type"]=="1"){
-//        navigatorKey.currentState.push(
-//            MaterialPageRoute(builder: (context) => PayReservation())
-//        );
-//      }else if(obj["type"]=="6"){
-//        navigatorKey.currentState.push(
-//            MaterialPageRoute(builder: (context) => RateProvider())
-//        );
-//      }else{
-//        navigatorKey.currentState.push(
-//            MaterialPageRoute(builder: (context) => Notifications())
-//        );
-//      }
-
-
-
-    });
-
+    int _type = int.parse(_data["type"] ?? "4");
   }
+
 }

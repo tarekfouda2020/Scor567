@@ -34,7 +34,7 @@ class _classState extends State<Teams> {
       _loading = true;
     });
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    final _favModel = Provider.of<AddOrRemoveFavouritePublicClub>(context);
+    final _favModel = Provider.of<AddOrRemoveFavouritePublicClub>(context,listen: false);
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
     var body = {"user_id": "$_user", "lang": "$_lang"};

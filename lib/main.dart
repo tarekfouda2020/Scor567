@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -20,13 +21,15 @@ import 'customer/MatchDetails.dart';
 import 'customer/Search.dart';
 import 'publaic/Splash.dart';
 
-void main() {
+void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   MobileAds.instance.initialize();
   runApp(EasyLocalization(
     child: MyApp(),
     supportedLocales: [Locale('ar', 'EG'), Locale('en', 'US')],
     path: 'assets/langs',
+    startLocale: Locale('ar', 'EG'),
   ));
 }
 
@@ -50,7 +53,7 @@ class _myAppState extends State<MyApp> {
 
   _setChangeLanguage(local) {
     _local = local;
-    EasyLocalization.of(context).locale = _local;
+    context.setLocale(_local);
     setState(() {});
   }
 
@@ -75,7 +78,6 @@ class _myAppState extends State<MyApp> {
         locale: context.locale,
         theme: ThemeData(
           primarySwatch: Colors.green,
-          cursorColor: Color(0xffffc107),
           focusColor: Color(0xffffc107),
           accentColor: Color(0xffffc107),
           primaryColor: Color(0xffffc107),

@@ -48,7 +48,7 @@ class _classState extends State<LastDays> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
-    final favourite = Provider.of<AddFavouriteModel>(context);
+    final favourite = Provider.of<AddFavouriteModel>(context,listen: false);
     favourite.playedMatches.clear();
     favourite.notPlayedMatches.clear();
 
@@ -67,8 +67,8 @@ class _classState extends State<LastDays> {
       widget._scafold,
     ).get("AppApi/GetFavourites", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
-      final days = Provider.of<DaysModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
+      final days = Provider.of<DaysModel>(context,listen: false);
       days.setDays(_data["data"]);
       setState(() {
         _champions = _data["data"];
@@ -135,7 +135,7 @@ class _classState extends State<LastDays> {
       widget._scafold,
     ).post("AppApi/AddMatchToFavouritOrRemove", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
       model.removeMatches(index, q);
       if (model.matches[index]["AppHomeViewModelMatch"].length == 0 ||
           model.matches[index]["AppHomeViewModelMatch"].length == null) {
@@ -176,7 +176,7 @@ class _classState extends State<LastDays> {
   }
 
   _setSelectedDay(index) {
-    final model = Provider.of<FavouriteModel>(context);
+    final model = Provider.of<FavouriteModel>(context,listen: false);
     _days.forEach((obj) {
       obj["selected"] = false;
     });

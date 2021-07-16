@@ -29,8 +29,7 @@ class _splashState extends State<Splash> {
   }
 
   checkUsers() async {
-    GlobalNotification.instance
-        .setupNotification(navKey: widget.navigatorKey, func: () {});
+    GlobalNotification.instance.setupNotification(widget.navigatorKey.currentContext);
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _lang = _prefs.get("lang");
     _lang == null ? _prefs.setString("lang", "ar") : null;

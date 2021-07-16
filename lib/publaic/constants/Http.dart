@@ -19,7 +19,7 @@ class Http{
 
   post(url,body,context)async{
     LoadingDialog(_scafold).showDialogMethod();
-    var response = await http.post("$baseUrl$url",body: body);
+    var response = await http.post(Uri.parse("$baseUrl$url"),body: body);
     if(response.statusCode==200){
       var data=json.decode(response.body);
       if(data["key"]==1){
@@ -41,7 +41,7 @@ class Http{
   }
 
   get(url,body,context,{close=false})async{
-    var response = await http.post("$baseUrl$url",body: body);
+    var response = await http.post(Uri.parse("$baseUrl$url"),body: body);
     if(close){
       Navigator.of(context).pop();
     }

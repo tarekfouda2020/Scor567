@@ -34,28 +34,21 @@ class _appDescrition extends State<Home> {
   void initState() {
     super.initState();
     _setIntialIndex();
-    // TODO: Create a BannerAd instance
-    _ad = InterstitialAd(
+     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: AdRequest(),
-      listener: AdListener(
-        onAdLoaded: (_) {
-          // setState(() {
-          //   _isAdLoaded = true;
-          // });
-          _ad.show();
-        },
-        onAdFailedToLoad: (ad, error) {
-          // Releases an ad resource when it fails to load
-          ad.dispose();
-
-          print('Ad load failed (code=${error.code} message=${error.message})');
-        },
-      ),
+         adLoadCallback: InterstitialAdLoadCallback(
+           onAdLoaded: (InterstitialAd value) {
+             // Keep a reference to the ad so you can show it later.
+             _ad = value;
+             _ad.show();
+           },
+           onAdFailedToLoad: (LoadAdError error) {
+             print('InterstitialAd failed to load: $error');
+           },
+         ),
     );
 
-    // TODO: Load an ad
-    _ad.load();
   }
 
   checkUsers() async {
@@ -87,9 +80,9 @@ class _appDescrition extends State<Home> {
     var lang = prefs.get("lang");
 
     if (lang == "en") {
-      EasyLocalization.of(context).locale = Locale("en", "US");
+      context.setLocale(Locale("en", "US"));
     } else {
-      EasyLocalization.of(context).locale = Locale("ar", "EG");
+      context.setLocale(Locale("ar", "EG"));
     }
     setState(() {});
   }

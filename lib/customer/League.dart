@@ -252,20 +252,23 @@ class _classState extends State<League> {
                                             fit: BoxFit.contain)),
                                   )
                                 : CarouselSlider(
-                                    height: 135.0,
-                                    aspectRatio: 16 / 9,
-                                    viewportFraction: 1.0,
-                                    initialPage: 0,
-                                    enableInfiniteScroll: true,
-                                    reverse: false,
-                                    autoPlay: true,
-                                    autoPlayInterval: Duration(seconds: 3),
-                                    autoPlayAnimationDuration:
-                                        Duration(milliseconds: 800),
-                                    autoPlayCurve: Curves.easeOutSine,
-                                    pauseAutoPlayOnTouch: Duration(seconds: 10),
-                                    enlargeCenterPage: true,
-                                    items: adverts.map((obj) {
+                              options: CarouselOptions(
+                                height: 135.0,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 1.0,
+                                initialPage: 0,
+                                enableInfiniteScroll: true,
+                                reverse: false,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 3),
+                                autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.easeOutSine,
+                                enlargeCenterPage: true,
+                                pauseAutoPlayOnTouch: true,
+                              ),
+
+                              items: adverts.map((obj) {
                                       return Builder(
                                         builder: (BuildContext context) {
                                           return InkWell(

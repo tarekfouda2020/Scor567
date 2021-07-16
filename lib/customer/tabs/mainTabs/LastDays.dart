@@ -32,7 +32,7 @@ class LastDays extends StatefulWidget {
 
 class _classState extends State<LastDays> {
   GlobalKey<ScaffoldState> _currentScafold = new GlobalKey<ScaffoldState>();
-  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging =  FirebaseMessaging.instance;
   bool _loading = true;
   var _champions = [];
   var _dayIndex;
@@ -51,8 +51,8 @@ class _classState extends State<LastDays> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
-    final model = Provider.of<AddFavouriteModel>(context);
-    final days = Provider.of<DaysModel>(context);
+    final model = Provider.of<AddFavouriteModel>(context,listen: false);
+    final days = Provider.of<DaysModel>(context,listen: false);
     model.cleanFav();
     String date = "$day/$month/$_year";
     var _token = await _firebaseMessaging.getToken();

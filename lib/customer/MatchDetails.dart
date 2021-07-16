@@ -177,19 +177,21 @@ class _classState extends State<MatchDetails> {
                                 ),
                               )
                                   : CarouselSlider(
-                                height: 135.0,
-                                aspectRatio: 16 / 9,
-                                viewportFraction: 1.0,
-                                initialPage: 0,
-                                enableInfiniteScroll: true,
-                                reverse: false,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 3),
-                                autoPlayAnimationDuration:
-                                    Duration(milliseconds: 800),
-                                autoPlayCurve: Curves.easeOutSine,
-                                pauseAutoPlayOnTouch: Duration(seconds: 10),
-                                enlargeCenterPage: true,
+                             options: CarouselOptions(
+                               height: 135.0,
+                               aspectRatio: 16 / 9,
+                               viewportFraction: 1.0,
+                               initialPage: 0,
+                               enableInfiniteScroll: true,
+                               reverse: false,
+                               autoPlay: true,
+                               autoPlayInterval: Duration(seconds: 3),
+                               autoPlayAnimationDuration:
+                               Duration(milliseconds: 800),
+                               autoPlayCurve: Curves.easeOutSine,
+                               pauseAutoPlayOnTouch: true,
+                               enlargeCenterPage: true,
+                             ),
                                 items: _advert.map((obj) {
                                   return Builder(
                                     builder: (BuildContext context) {

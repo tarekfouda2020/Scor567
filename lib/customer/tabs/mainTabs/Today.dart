@@ -30,7 +30,7 @@ class Today extends StatefulWidget {
 }
 
 class _classState extends State<Today> {
-  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging =  FirebaseMessaging.instance;
   bool _loading = true;
   var _champions = [];
   var _fav = [];
@@ -40,8 +40,8 @@ class _classState extends State<Today> {
       _loading = true;
     });
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    final model = Provider.of<AddFavouriteModel>(context);
-    final days = Provider.of<DaysModel>(context);
+    final model = Provider.of<AddFavouriteModel>(context,listen: false);
+    final days = Provider.of<DaysModel>(context,listen: false);
     var _user = _prefs.get("user") == null ? "" : "${_prefs.get("user")}";
     var _lang = _prefs.get("lang");
     var today = DateTime.now();
@@ -84,7 +84,7 @@ class _classState extends State<Today> {
         }
         model.setFav(_fav);
       } else {
-        final model = Provider.of<AddFavouriteModel>(context);
+        final model = Provider.of<AddFavouriteModel>(context,listen: false);
         setState(() {
           _champions = _data["data"];
           _loading = false;
@@ -115,7 +115,7 @@ class _classState extends State<Today> {
 
   Future _addFavourite(matchID, championId, index, q) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    final model = Provider.of<AddFavouriteModel>(context);
+    final model = Provider.of<AddFavouriteModel>(context,listen: false);
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
     var body = {

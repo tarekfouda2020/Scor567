@@ -40,7 +40,7 @@ class _classState extends State<NextDay> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
-    final model = Provider.of<AddFavouriteModel>(context);
+    final model = Provider.of<AddFavouriteModel>(context,listen: false);
     model.playedMatches.clear();
     model.notPlayedMatches.clear();
     String date =
@@ -64,8 +64,8 @@ class _classState extends State<NextDay> {
       widget._scafold,
     ).get("AppApi/GetFavourites", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
-      final days = Provider.of<DaysModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
+      final days = Provider.of<DaysModel>(context,listen: false);
       days.setDays(_data["data"]);
       setState(() {
         _champions = _data["data"];
@@ -107,7 +107,7 @@ class _classState extends State<NextDay> {
       widget._scafold,
     ).post("AppApi/AddMatchToFavouritOrRemove", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
       model.removeMatches(index, q);
       if (model.matches[index]["AppHomeViewModelMatch"].length == 0 ||
           model.matches[index]["AppHomeViewModelMatch"].length == null) {

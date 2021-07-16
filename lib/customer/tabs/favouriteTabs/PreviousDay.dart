@@ -98,7 +98,7 @@ class _classState extends State<PreviousDay> {
       widget._scafold,
     ).post("AppApi/AddMatchToFavouritOrRemove", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
       model.removeMatches(index, q);
       if (model.matches[index]["AppHomeViewModelMatch"].length == 0 ||
           model.matches[index]["AppHomeViewModelMatch"].length == null) {

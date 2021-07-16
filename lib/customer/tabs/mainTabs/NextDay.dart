@@ -31,7 +31,7 @@ class NextDay extends StatefulWidget {
 }
 
 class _classState extends State<NextDay> {
-  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging =  FirebaseMessaging.instance;
   bool _loading = true;
   var _champions = [];
   var _fav = [];
@@ -43,8 +43,8 @@ class _classState extends State<NextDay> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
-    final model = Provider.of<AddFavouriteModel>(context);
-    final days = Provider.of<DaysModel>(context);
+    final model = Provider.of<AddFavouriteModel>(context,listen: false);
+    final days = Provider.of<DaysModel>(context,listen: false);
     model.cleanFav();
     // var year = DateTime.now().year;
     String date = "${widget.date}/${widget.month}/${widget.year}";
@@ -117,7 +117,9 @@ class _classState extends State<NextDay> {
 
   @override
   void initState() {
-    _getHome();
+    Future.delayed(Duration(milliseconds: 200),(){
+      _getHome();
+    });
     super.initState();
   }
 

@@ -50,7 +50,7 @@ class _classState extends State<FirstDays> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     var _user = _prefs.get("user");
     var _lang = _prefs.get("lang");
-    final favourite = Provider.of<AddFavouriteModel>(context);
+    final favourite = Provider.of<AddFavouriteModel>(context,listen: false);
     favourite.playedMatches.clear();
     favourite.notPlayedMatches.clear();
     String date = "$day/$month/$_year";
@@ -68,8 +68,8 @@ class _classState extends State<FirstDays> {
       widget._scafold,
     ).get("AppApi/GetFavourites", body, context);
     if (_data["key"] == 1) {
-      final model = Provider.of<AddFavouriteModel>(context);
-      final days = Provider.of<DaysModel>(context);
+      final model = Provider.of<AddFavouriteModel>(context,listen: false);
+      final days = Provider.of<DaysModel>(context,listen: false);
       days.setDays(_data["data"]);
       setState(() {
         _champions = _data["data"];
@@ -178,7 +178,7 @@ class _classState extends State<FirstDays> {
   }
 
   _setSelectedDay(index) {
-    final model = Provider.of<FavouriteModel>(context);
+    final model = Provider.of<FavouriteModel>(context,listen: false);
     _days.forEach((obj) {
       obj["selected"] = false;
     });
