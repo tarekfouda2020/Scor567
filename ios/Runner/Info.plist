@@ -15,13 +15,42 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Play using while you are hiking</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app requires calender access to function properly</string>
+	<key>NSCameraUsageDescription</key>
+	<string>used to add user image .</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires contacts access to function properly</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Program requires GPS to track customer location to appy his order .</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Program requires GPS to track customer location to appy his order .</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Program requires GPS to track customer location to appy his order .</string>
+	<key>NSMotionUsageDescription</key>
+	<string>This app needs to be able to access your motion use</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photo library to add user photo.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>recognize speech</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -44,37 +73,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3940256099942544~1458002511</string>
-    <key>SKAdNetworkItems</key>
-      <array>
-        <dict>
-          <key>SKAdNetworkIdentifier</key>
-          <string>cstr6suwn9.skadnetwork</string>
-        </dict>
-      </array>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-    <key>NSAppleMusicUsageDescription</key>
-	<string>Play using while you are hiking</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>This app requires calender access to function properly</string>
-	<key>NSCameraUsageDescription</key>
-	<string>used to add user image .</string>
-	<key>NSContactsUsageDescription</key>
-	<string>This app requires contacts access to function properly</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Program requires GPS to track customer location to appy his order .</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Program requires GPS to track customer location to appy his order .</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Program requires GPS to track customer location to appy his order .</string>
-	<key>NSMotionUsageDescription</key>
-	<string>This app needs to be able to access your motion use</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to photo library to add user photo.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>recognize speech</string>
-
 </dict>
 </plist>
